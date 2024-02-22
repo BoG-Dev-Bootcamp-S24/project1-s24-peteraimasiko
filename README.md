@@ -14,7 +14,7 @@ In this project, you'll be creating a frontend that graphically displays train i
 
 ## Submission
 Create a 0.5-2 minute demo video to showcase your project's functionality (this is just so that we don't have to go through and install dependencies / deal with versioning errors for every single exercise)!
-- **Due Date**: TBD
+- **Due Date**: 02-29-24
 
 ## Instructions
 In the pages folder, create a page component named `LinesPage.js`, this page will display the entire interface. Also, create a component called `TrainList.js`. This component should have a prop specifying the line color (i.e. blue, gold, red, or green), and would contain the interface for all trains in the given line. The current line that's being displayed should be stored as a state in the LinesPage component. Here's some barebones code for some idea of what the structure should look like:
