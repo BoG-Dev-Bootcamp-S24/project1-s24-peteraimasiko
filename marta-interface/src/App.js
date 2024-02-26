@@ -1,26 +1,22 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
 import LinesPage from './pages/LinesPage';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import FrontPage from './pages/FrontPage';
 
 function App() {
   return (
-    <div className="App">
-      <LinesPage/>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<FrontPage/>} />
+        <Route path='linespage'>
+          <Route path='gold' element={<LinesPage color={"gold"}/>}/>
+          <Route path='blue' element={<LinesPage color={"blue"}/>}/>
+          <Route path='green' element={<LinesPage color={"green"}/>}/>
+          <Route path='red' element={<LinesPage color={"red"}/>}/>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
