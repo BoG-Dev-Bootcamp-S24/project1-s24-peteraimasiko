@@ -40,6 +40,7 @@ export default function TrainList({setArrivalsData, arrivalsdata, direction, loa
     </div>)
   }
 
+  
 
   function buttonClicked(e) {
     if (e.target.classList.contains("selected")) {
@@ -119,8 +120,8 @@ export default function TrainList({setArrivalsData, arrivalsdata, direction, loa
         <div>Loading...</div>
       ) : arrivalsdata ? (
         arrivalsdata.filter((arrival) => {
-          return (!arriving || arrival.WAITING_TIME === "Arriving") &&
-          (!scheduled || arrival.WAITING_TIME !== "Arriving" ) &&
+          return ((!arriving || scheduled) || arrival.WAITING_TIME === "Arriving") &&
+          ((!scheduled || arriving) || arrival.WAITING_TIME !== "Arriving" ) &&
           (!eastbound || arrival.DIRECTION === "E") &&
           (!westbound || arrival.DIRECTION === "W") &&
           (!northbound || arrival.DIRECTION === "N") &&

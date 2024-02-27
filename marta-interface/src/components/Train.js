@@ -3,7 +3,7 @@ import React from 'react'
 function Train({ arrival, color }) {
   return (
     <div className='flex'>
-      <div>{arrival.STATION[0]}</div>
+      <div className=' m-5 text-3xl'>{arrival.STATION[0]}</div>
       <div className='flex flex-col'>
         <p>{arrival.STATION} ➤ {arrival.DESTINATION}</p>
         <div className='flex justify-between'>
