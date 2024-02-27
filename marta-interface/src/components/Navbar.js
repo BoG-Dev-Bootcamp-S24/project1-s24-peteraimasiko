@@ -12,7 +12,7 @@ function Navbar({ stationsdata, loading, setCurrentStation }) {
         <ul className='text-center'>
           <li><button onClick={() => setCurrentStation("")}>All Stations</button></li>
           {stationsdata.map(station => 
-          <li className='px-14'><button onClick={() => 
+          <li className='px-16 w-auto'><button className='w-max' onClick={() => 
             setCurrentStation(station)
           }>{station}</button></li>)}
           

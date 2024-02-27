@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Train from './Train'
-export default function TrainList({setArrivalsData, arrivalsdata, direction, loading, color}) {
+export default function TrainList({currentStation, arrivalsdata, direction, loading, color}) {
 
   const [filters, setFilters] = useState([])
 
@@ -23,23 +23,37 @@ export default function TrainList({setArrivalsData, arrivalsdata, direction, loa
   */
 
 
-  
-  function EastWest() {
-   return ( <div className='flex justify-evenly'>
-      <button onClick={(e) => {buttonClicked(e); setArriving(!arriving ? true : false)}}>Arriving</button>
-      <button onClick={(e) => {buttonClicked(e); setScheduled(!scheduled ? true : false)}}>Scheduled</button>
-      <button id='east' onClick={(e) => {buttonClicked(e); 
-        setEastBound(!eastbound ? true : false); 
-        setWestBound(false);
-        westButton.classList.remove("selected")
-        
-        }}>Eastbound</button>
-      <button id='west' onClick={(e) => {buttonClicked(e); setWestBound(!westbound ? true : false); setEastBound(false);
-      eastButton.classList.remove("selected")
-      }}>Westbound</button>
-    </div>)
-  }
 
+
+
+  
+  // function EastWest() {
+  //  return ( <div className='flex justify-evenly'>
+  //     <button onClick={(e) => {buttonClicked(e); setArriving(!arriving ? true : false)}}>Arriving</button>
+  //     <button onClick={(e) => {buttonClicked(e); setScheduled(!scheduled ? true : false)}}>Scheduled</button>
+  //     <button id='east' onClick={(e) => {buttonClicked(e); 
+  //       setEastBound(!eastbound ? true : false); 
+  //       setWestBound(false);
+  //       westButton.classList.remove("selected")
+        
+  //       }}>Eastbound</button>
+  //     <button id='west' onClick={(e) => {buttonClicked(e); setWestBound(!westbound ? true : false); setEastBound(false);
+  //     eastButton.classList.remove("selected")
+  //     }}>Westbound</button>
+  //   </div>)
+  // }
+
+  function EastWest() {
+    return ( <div className='flex justify-evenly'>
+       <button onClick={(e) => {buttonClicked(e); setArriving(!arriving ? true : false)}}>Arriving</button>
+       <button onClick={(e) => {buttonClicked(e); setScheduled(!scheduled ? true : false)}}>Scheduled</button>
+       <button id='east' onClick={(e) => {buttonClicked(e); 
+         setEastBound(!eastbound ? true : false); 
+         }}>Eastbound</button>
+       <button id='west' onClick={(e) => {buttonClicked(e); setWestBound(!westbound ? true : false); 
+       }}>Westbound</button>
+     </div>)
+   }
   
 
   function buttonClicked(e) {
@@ -54,12 +68,22 @@ export default function TrainList({setArrivalsData, arrivalsdata, direction, loa
     }
   }
 
+  // function NorthSouth() {
+  //   return (<div className='flex justify-evenly'>
+  //     <button onClick={(e) => {buttonClicked(e); setArriving(!arriving ? true : false)}}>Arriving</button>
+  //     <button onClick={(e) => {buttonClicked(e); setScheduled(!scheduled ? true : false)}}>Scheduled</button>
+  //     <button id='north' onClick={(e) => {buttonClicked(e); setNorthBound(!northbound ? true : false); setSouthBound(false); southButton.classList.remove("selected")}}>Northbound</button>
+  //     <button id='south' onClick={(e) => {buttonClicked(e); setSouthBound(!southbound ? true : false); setNorthBound(false); northButton.classList.remove("selected")}}>Southbound</button>
+  //   </div>)
+  // }
+ 
+  
   function NorthSouth() {
     return (<div className='flex justify-evenly'>
       <button onClick={(e) => {buttonClicked(e); setArriving(!arriving ? true : false)}}>Arriving</button>
       <button onClick={(e) => {buttonClicked(e); setScheduled(!scheduled ? true : false)}}>Scheduled</button>
-      <button id='north' onClick={(e) => {buttonClicked(e); setNorthBound(!northbound ? true : false); setSouthBound(false); southButton.classList.remove("selected")}}>Northbound</button>
-      <button id='south' onClick={(e) => {buttonClicked(e); setSouthBound(!southbound ? true : false); setNorthBound(false); northButton.classList.remove("selected")}}>Southbound</button>
+      <button id='north' onClick={(e) => {buttonClicked(e); setNorthBound(!northbound ? true : false); }}>Northbound</button>
+      <button id='south' onClick={(e) => {buttonClicked(e); setSouthBound(!southbound ? true : false); }}>Southbound</button>
     </div>)
   }
  
@@ -122,10 +146,17 @@ export default function TrainList({setArrivalsData, arrivalsdata, direction, loa
         arrivalsdata.filter((arrival) => {
           return ((!arriving || scheduled) || arrival.WAITING_TIME === "Arriving") &&
           ((!scheduled || arriving) || arrival.WAITING_TIME !== "Arriving" ) &&
-          (!eastbound || arrival.DIRECTION === "E") &&
-          (!westbound || arrival.DIRECTION === "W") &&
-          (!northbound || arrival.DIRECTION === "N") &&
-          (!southbound || arrival.DIRECTION === "S")
+          ((!eastbound || westbound) || arrival.DIRECTION === "E") &&
+          ((!westbound || eastbound) || arrival.DIRECTION === "W") &&
+          ((!northbound || southbound) || arrival.DIRECTION === "N") &&
+          ((!southbound || northbound)|| arrival.DIRECTION === "S")
+        }).filter((arrival) => {
+          if (currentStation !== "all") {
+            return arrival.STATION.includes(currentStation.toUpperCase())
+          } else {
+            return true;
+          }
+          
         }).map((arrival) => {
           return <Train arrival={arrival} color={color}/>
         })
