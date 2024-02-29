@@ -1,5 +1,7 @@
 # Project 1 - Marta Interface
 
+https://github.com/BoG-Dev-Bootcamp-S24/project1-s24-peteraimasiko/assets/117502887/75f54b70-09de-4e3c-984b-45dd4903c520
+
 ## Desciption
 In this project, you'll be creating a frontend that graphically displays train information with filtering options. Using your React knowledge, you will implement hooks, props, and state management in this Marta Interface!
 
