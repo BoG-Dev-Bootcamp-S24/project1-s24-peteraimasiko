@@ -44,13 +44,13 @@ export default function TrainList({currentStation, arrivalsdata, direction, load
   // }
 
   function EastWest() {
-    return ( <div className='flex justify-evenly'>
-       <button onClick={(e) => {buttonClicked(e); setArriving(!arriving ? true : false)}}>Arriving</button>
-       <button onClick={(e) => {buttonClicked(e); setScheduled(!scheduled ? true : false)}}>Scheduled</button>
-       <button id='east' onClick={(e) => {buttonClicked(e); 
+    return ( <div className='flex justify-evenly mt-2 p-2 pb-3 border-b-[2px] border-black'>
+       <button className='no-selected' onClick={(e) => {buttonClicked(e); setArriving(!arriving ? true : false)}}>Arriving</button>
+       <button className='no-selected' onClick={(e) => {buttonClicked(e); setScheduled(!scheduled ? true : false)}}>Scheduled</button>
+       <button className='no-selected' id='east' onClick={(e) => {buttonClicked(e); 
          setEastBound(!eastbound ? true : false); 
          }}>Eastbound</button>
-       <button id='west' onClick={(e) => {buttonClicked(e); setWestBound(!westbound ? true : false); 
+       <button className='no-selected' id='west' onClick={(e) => {buttonClicked(e); setWestBound(!westbound ? true : false); 
        }}>Westbound</button>
      </div>)
    }
@@ -58,108 +58,68 @@ export default function TrainList({currentStation, arrivalsdata, direction, load
 
   function buttonClicked(e) {
     if (e.target.classList.contains("selected")) {
-      // setFilters(filters.filter((value) => {
-      //   return value !== e.target.innerHTML
-      // }))
+      const stringa = "text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2";
+      const stringarr = stringa.split(" ")
+      e.target.classList.remove(...stringarr)
       e.target.classList.remove("selected")
+      e.target.classList.add("no-selected")
     } else {
-      // setFilters([...filters, e.target.innerHTML])
       e.target.classList.add("selected")
+      const stringa = "text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2";
+      const stringarr = stringa.split(" ")
+      e.target.classList.add(...stringarr)
+      e.target.classList.remove("no-selected")
     }
   }
 
-  // function NorthSouth() {
-  //   return (<div className='flex justify-evenly'>
-  //     <button onClick={(e) => {buttonClicked(e); setArriving(!arriving ? true : false)}}>Arriving</button>
-  //     <button onClick={(e) => {buttonClicked(e); setScheduled(!scheduled ? true : false)}}>Scheduled</button>
-  //     <button id='north' onClick={(e) => {buttonClicked(e); setNorthBound(!northbound ? true : false); setSouthBound(false); southButton.classList.remove("selected")}}>Northbound</button>
-  //     <button id='south' onClick={(e) => {buttonClicked(e); setSouthBound(!southbound ? true : false); setNorthBound(false); northButton.classList.remove("selected")}}>Southbound</button>
-  //   </div>)
-  // }
- 
-  
+  function newarr () {
+    return (arrivalsdata.filter((arrival) => {
+      return ((!arriving || scheduled) || arrival.WAITING_TIME === "Arriving") &&
+      ((!scheduled || arriving) || arrival.WAITING_TIME !== "Arriving" ) &&
+      ((!eastbound || westbound) || arrival.DIRECTION === "E") &&
+      ((!westbound || eastbound) || arrival.DIRECTION === "W") &&
+      ((!northbound || southbound) || arrival.DIRECTION === "N") &&
+      ((!southbound || northbound)|| arrival.DIRECTION === "S")
+    }).filter((arrival) => {
+      if (currentStation !== "all") {
+        if (currentStation === "Lakewood/Ft. McPherson") {
+          return arrival.STATION.includes("LAKEWOOD")           
+        }
+        if (currentStation === "Hamilton E. Holmes") {
+          return arrival.STATION.includes("HE")  
+        }
+        if (currentStation === "GWCC/CNN Center") {
+          return arrival.STATION.includes("DOME")  
+        }
+        if (currentStation === "Edgewood") {
+          return arrival.STATION.includes("CANDLER")  
+        }
+        return arrival.STATION.includes(currentStation.toUpperCase())
+      } else {
+        return true;
+      } 
+    }));
+  }
+
+
   function NorthSouth() {
-    return (<div className='flex justify-evenly'>
-      <button onClick={(e) => {buttonClicked(e); setArriving(!arriving ? true : false)}}>Arriving</button>
-      <button onClick={(e) => {buttonClicked(e); setScheduled(!scheduled ? true : false)}}>Scheduled</button>
-      <button id='north' onClick={(e) => {buttonClicked(e); setNorthBound(!northbound ? true : false); }}>Northbound</button>
-      <button id='south' onClick={(e) => {buttonClicked(e); setSouthBound(!southbound ? true : false); }}>Southbound</button>
+    return (<div className='flex justify-evenly mt-2 p-2 pb-3 border-b-[2px] border-black'>
+      <button className='no-selected' onClick={(e) => {buttonClicked(e); setArriving(!arriving ? true : false)}}>Arriving</button>
+      <button className='no-selected' onClick={(e) => {buttonClicked(e); setScheduled(!scheduled ? true : false)}}>Scheduled</button>
+      <button className='no-selected' id='north' onClick={(e) => {buttonClicked(e); setNorthBound(!northbound ? true : false); }}>Northbound</button>
+      <button className='no-selected' id='south' onClick={(e) => {buttonClicked(e); setSouthBound(!southbound ? true : false); }}>Southbound</button>
     </div>)
   }
  
-
-
-  // useEffect(() => {
-  //   if (filters.length !== 0) {
-  //     filters.forEach((value) => {
-  //       switch (value) {
-  //         case "Arriving":
-  //           // return (arrivalsdata.filter((arrival) => {
-  //           //   return arrival.WAITING_TIME === "Arriving"
-  //           // }).map((arrival) => {
-  //           //   return <Train arrival={arrival} color={color}/>
-  //           // }));
-  //           setArrivalsData(arrivalsdata.filter((arrival) => {
-  //               return arrival.WAITING_TIME === "Arriving"
-  //           }))
-  //           break;
-  //         case "Scheduled":
-  //           setArrivalsData(arrivalsdata.filter((arrival) => {
-  //             return arrival.WAITING_TIME !== "Arriving"
-  //           }));
-  //           break;
-  //         case "Northbound":
-  //           setArrivalsData(arrivalsdata.filter((arrival) => {
-  //             return arrival.DIRECTION === "N"
-  //           }));
-  //           break;
-  //         case "Southbound":
-  //           setArrivalsData(arrivalsdata.filter((arrival) => {
-  //             return arrival.DIRECTION === "S"
-  //           }));
-  //           break;
-  //         case "Eastbound":
-  //           setArrivalsData(arrivalsdata.filter((arrival) => {
-  //             return arrival.DIRECTION === "E"
-  //           }));
-  //           break;
-  //         case "Westbound":
-  //           setArrivalsData(arrivalsdata.filter((arrival) => {
-  //             return arrival.DIRECTION === "W"
-  //           }));
-  //           break;
-  //         default:
-  //           break;
-  //       }
-  //     })
-  //   } else {
-  //     setArrivalsData(totalArrivalData)
-  //   }
-    
-  // }, [filters])
   return (
     <div className='flex flex-col w-full'>
       {direction === "E" ? EastWest() : NorthSouth()}
       {loading ? (
         <div>Loading...</div>
       ) : arrivalsdata ? (
-        arrivalsdata.filter((arrival) => {
-          return ((!arriving || scheduled) || arrival.WAITING_TIME === "Arriving") &&
-          ((!scheduled || arriving) || arrival.WAITING_TIME !== "Arriving" ) &&
-          ((!eastbound || westbound) || arrival.DIRECTION === "E") &&
-          ((!westbound || eastbound) || arrival.DIRECTION === "W") &&
-          ((!northbound || southbound) || arrival.DIRECTION === "N") &&
-          ((!southbound || northbound)|| arrival.DIRECTION === "S")
-        }).filter((arrival) => {
-          if (currentStation !== "all") {
-            return arrival.STATION.includes(currentStation.toUpperCase())
-          } else {
-            return true;
-          }
-          
-        }).map((arrival) => {
+        (newarr().length !== 0 ? (newarr().map((arrival) => {
           return <Train arrival={arrival} color={color}/>
-        })
+        })) : <div className='m-0 flex items-center justify-center text-5xl mt-28'>No trains are available brody</div> )
       ) : (
         <div>Error fetching data</div>
       )}
