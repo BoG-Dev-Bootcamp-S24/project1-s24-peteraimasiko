@@ -119,7 +119,7 @@ export default function TrainList({currentStation, arrivalsdata, direction, load
       ) : arrivalsdata ? (
         (newarr().length !== 0 ? (newarr().map((arrival) => {
           return <Train arrival={arrival} color={color}/>
-        })) : <div className='m-0 flex items-center justify-center text-5xl mt-28'>No trains are available brody</div> )
+        })) : <div className='m-0 flex items-center justify-center text-5xl mt-28'>No trains are available homie.</div> )
       ) : (
         <div>Error fetching data</div>
       )}
